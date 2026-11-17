@@ -1,0 +1,25 @@
+# Virtual environments
+venv/
+.venv/
+
+# .env files
+.env
+.env.*
+
+# Python caches
+__pycache__/
+.pytest_cache/
+
+# Git metadata
+.git/
+.gitignore
+
+# Vscode caches
+.vscode/
+
+# Database
+*.db
+
+*.md
+
+tests/
