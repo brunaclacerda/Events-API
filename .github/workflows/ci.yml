@@ -71,12 +71,15 @@ jobs:
             - name: Push docker image
               run: |
                 docker push \
+                ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:latest
+                
+                docker push \
                 ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
             
             - name: Trigger render deployment
               run: | 
                 curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-                sleep 45
+                sleep 30
 
             - name: Make a smoke test
               run: |
