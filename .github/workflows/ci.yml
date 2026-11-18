@@ -70,7 +70,7 @@ jobs:
             
             - name: Push docker image
               run: docker push \
-                ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
+                docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
             
             - name: Trigger render deployment
               run: | 
