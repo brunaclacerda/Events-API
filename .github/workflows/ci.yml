@@ -76,5 +76,18 @@ jobs:
             - name: Trigger render deployment
               run: | 
                 curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-                sleep 5
+                sleep 45
+
+            - name: Make a smoke test
+              run: |
+                status=$(curl -s -o /dev/null -w "%{http_code}" \
+                --max-time 15 \
+                "${{ secrets.RENDER_SERVICE_URL }}/api/health")
+
+                if [ "$status" != "200" ]; then
+                    echo "Smoke test failed: HTTP $status"
+                    exit 1
+                fi
+
+                echo "Smoke test passed: HTTP 200"
 
