@@ -51,6 +51,8 @@ jobs:
         environment: production
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
          
             - name: Login to Docker
               uses: docker/login-action@v3
