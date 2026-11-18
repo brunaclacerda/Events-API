@@ -80,14 +80,18 @@ jobs:
 
             - name: Make a smoke test
               run: |
-                status=$(curl -s -o /dev/null -w "%{http_code}" \
+                if ! status=$(curl -s -o /dev/null -w "%{http_code}" \
                 --max-time 15 \
-                "${{ secrets.RENDER_SERVICE_URL }}/api/health")
-
-                if [ "$status" != "200" ]; then
-                    echo "Smoke test failed: HTTP $status"
-                    exit 1
+                "${{ secrets.RENDER_SERVICE_URL }}/api/health"); then
+                echo "Smoke test failed: network error or timeout"
+                exit 1
                 fi
 
-                echo "Smoke test passed: HTTP 200"
+                if [ "$status" != "200" ]; then
+                echo "Smoke test failed: HTTP $status"
+                exit 1
+                fi
+
+                echo "Smoke test passed: HTTP $status"
+                
 
