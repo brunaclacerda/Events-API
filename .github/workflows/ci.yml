@@ -58,14 +58,17 @@ jobs:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
                 password: ${{ secrets.DOCKER_HUB_PAT }}
 
-            - name: Tag docker image
+            - name: Build and tag docker image
               run: |
-                docker tag events-api:latest ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:latest
-                docker tag events-api:latest ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
+                docker build \
+                -t ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:latest .
+
+                docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:latest \
+                 ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
             
             - name: Push docker image
-              run: |
-                docker push ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
+              run: docker push \
+                ${{ secrets.DOCKER_HUB_USERNAME }}/events-api:${{ github.sha }}
             
             - name: Trigger render deployment
               run: | 
